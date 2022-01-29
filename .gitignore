@@ -1,0 +1,17 @@
+node_modules/
+npm-debug*
+*.jks
+*.p8
+*.p12
+*.key
+.vscode/
+
+# Jetbrains
+*.idea
+
+
+#Visual Studio
+*.vs
+
+# macOS
+.DS_Store

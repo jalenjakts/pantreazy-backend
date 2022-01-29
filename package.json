@@ -1,0 +1,20 @@
+{
+  "name": "react-web-app",
+  "version": "1.0.0",
+  "description": "Web App for Project",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "author": "SWE 4724 - Group 6",
+  "license": "ISC",
+  "dependencies": {
+    "next": "^12.0.9",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2"
+  }
+}
