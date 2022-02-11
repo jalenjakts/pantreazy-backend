@@ -35,3 +35,6 @@ npm-debug.log*
 #REPL History
 .node_repl_history
 .next
+
+#addition by ben > don't want to commit the file that saves my workspace.
+.code-workspace
