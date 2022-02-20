@@ -1,0 +1,21 @@
+﻿{
+    "database": {
+        "host": "localhost",
+        "port": 3306,
+        "user": "root",
+        "password": "mastergeorge9",
+        "database": "node-mysql-signup-verification-api"
+    },
+    "secret": "capstone",
+    "emailFrom": "info@pantreezy.com",
+
+    "comment": "// [ENTER YOUR OWN SMTP OPTIONS OR CREATE FREE TEST ACCOUNT IN ONE CLICK AT https://ethereal.email/]",
+    "smtpOptions": {
+        "host": "smtp.ethereal.email",
+        "port": 587,
+        "auth": {
+            "user": "bernardo.hirthe35@ethereal.email",
+            "pass": "ygF4xKCKMmnFase7AG"
+        }
+    }
+}
