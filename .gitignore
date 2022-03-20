@@ -38,3 +38,4 @@ npm-debug.log*
 
 #addition by ben > don't want to commit the file that saves my workspace.
 .code-workspace
+workspace.code-workspace
