@@ -13,7 +13,10 @@ async function initialize() {
     await connection.query(`CREATE DATABASE IF NOT EXISTS \`${database}\`;`);
 
     // connect to db
-    const sequelize = new Sequelize(database, user, password, { dialect: 'mysql' });
+    const sequelize = new Sequelize(database, user, password, { 
+        host: "database-1.cw5ow7jizjpc.us-east-2.rds.amazonaws.com",
+        dialect: 'mysql' 
+    });
 
     // init models and add them to the exported db object
     db.Account = require('../accounts/account.model')(sequelize);

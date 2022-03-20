@@ -1,12 +1,12 @@
 ﻿{
     "database": {
-        "host": "localhost",
+        "host": "database-1.cw5ow7jizjpc.us-east-2.rds.amazonaws.com",
         "port": 3306,
-        "user": "root",
-        "password": "mastergeorge9",
-        "database": "node-mysql-signup-verification-api"
+        "user": "admin",
+        "password": "capstone",
+        "database": "database-1"
     },
-    "secret": "capstone",
+    "secret": "team7capstone",
     "emailFrom": "info@pantreezy.com",
 
     "comment": "// [ENTER YOUR OWN SMTP OPTIONS OR CREATE FREE TEST ACCOUNT IN ONE CLICK AT https://ethereal.email/]",
