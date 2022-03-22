@@ -7,6 +7,8 @@ const Role = require('api/_helpers/role');
 const accountService = require('api/accounts/account.service');
 
 // routes
+//note: all routes begin with /accounts. 
+//EX: https://url.com/accounts/authenticate
 router.post('/authenticate', authenticateSchema, authenticate);
 router.post('/refresh-token', refreshToken);
 router.post('/revoke-token', authorize(), revokeTokenSchema, revokeToken);
