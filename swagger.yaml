@@ -392,8 +392,6 @@ paths:
       summary: Get a list of all accounts
       description: Restricted to admin users.
       operationId: getAllAccounts
-      security:
-        - bearerAuth: []
       responses:
         "200":
           description: An array of all accounts
