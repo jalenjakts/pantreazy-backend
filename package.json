@@ -4,7 +4,7 @@
   "description": "Web App for Project",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "dev": "nodemon api/server.js",
     "build": "next build",
     "start": "node api/server.js",
@@ -33,6 +33,7 @@
     "yamljs": "^0.3.0"
   },
   "devDependencies": {
+    "jest": "^27.5.1",
     "nodemon": "^2.0.15"
   }
 }
