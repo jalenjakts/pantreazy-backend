@@ -35,3 +35,10 @@ npm-debug.log*
 #REPL History
 .node_repl_history
 .next
+
+#addition by ben > don't want to commit the file that saves my workspace.
+.code-workspace
+workspace.code-workspace
+
+#addition by ben > don't want to commit packages directly, use npm install to install packages correctly.
+package-lock.json
