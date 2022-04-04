@@ -1,4 +1,4 @@
-# React-Web Application
+# Pantreay-Backend
 
 Welcome to the React-Web Application for SWE 4724. This project utilizes the NextJS Framework to handle the component-based web application that we need to manage the website.
 
