@@ -17,5 +17,10 @@
             "user": "bernardo.hirthe35@ethereal.email",
             "pass": "ygF4xKCKMmnFase7AG"
         }
+    },
+
+    "EdamamRecipe": {
+        "apikey": "1c42ed46dc7d21157532331dabda84d5",
+        "apiId": "a2c26bc4"
     }
 }
