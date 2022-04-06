@@ -1,4 +1,4 @@
-# React-Web Application
+# Pantreazy NodeJS API
 
 Welcome to the React-Web Application for SWE 4724. This project utilizes the NextJS Framework to handle the component-based web application that we need to manage the website.
 
@@ -6,7 +6,7 @@ This application currently right now does not have the application deployed to A
 
 ## Project Tracking
 
-#### Contributors: Ben Dawit (BD), Tyler Hopkins (TH), Kyle Musgrove (KM), Jalen Springer (JS), and Raeven Whitfiled (RW)
+#### Contributors: Ben Dawit (BD), Tyler Hopkins (TH), Kyle Musgrove (KM), Jalen Springer (JS)
 
 **Features and Project Requests**
 
