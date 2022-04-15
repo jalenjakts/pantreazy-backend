@@ -1,4 +1,4 @@
-const config = require('api/config.json');
+const config = require('api/config.js');
 const mysql = require('mysql2/promise');
 const { Sequelize } = require('sequelize');
 

@@ -1,4 +1,4 @@
-﻿const config = require('api/config.json');
+﻿const config = require('api/config.js');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const crypto = require("crypto");
