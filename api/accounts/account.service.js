@@ -26,8 +26,12 @@ module.exports = {
 async function authenticate({ email, password, ipAddress }) {
     const account = await db.Account.scope('withHash').findOne({ where: { email } });
 
-    if (!account || !account.isVerified || !(await bcrypt.compare(password, account.passwordHash))) {
+    
+    if (!account || !(await bcrypt.compare(password, account.passwordHash))) {
         throw 'Email or password is incorrect';
+    }
+    if(!account.isVerified){
+        throw 'Account is Unverified'
     }
 
     // authentication successful so generate jwt and refresh tokens
@@ -259,7 +263,7 @@ async function sendVerificationEmail(account, origin) {
 
     await sendEmail({
         to: account.email,
-        subject: 'Sign-up Verification API - Verify Email',
+        subject: 'Sign-up Pantreazy - Verify Email',
         html: `<h4>Verify Email</h4>
                <p>Thanks for registering!</p>
                ${message}`
