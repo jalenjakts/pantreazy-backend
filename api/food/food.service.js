@@ -13,12 +13,10 @@ async function getFoodByBarcode(barcode) {
   //edit this to be more readable later with params in the options section of the axios.get method
   //const food = await axios.get('https://api.edamam.com/api/food-database/v2/parser?app_id=88ce8058&app_key=8b2fe98fbb3f01582017e134fa2e12a5&upc=' + barcode);
   try{
-    const food = await axios.get(baseurl + barcode);
-    console.log("hi")
-    return food;
+    const food = await axios.get(baseurl + barcode + ".json");
+    return food.data.product;
   }
   catch(err){
-    console.log(err)
     return err;
   }
 }
