@@ -15,7 +15,13 @@ router.get('/:barcode', getFood);
 async function getFood(req, res, next){
     const food = await foodService.getFoodByBarcode(req.params.barcode);
     
-    res.send(food)
+    res.json({
+        barcode:  food._id,
+        product_name: food.product_name,
+        food_group: food.food_groups,
+        food_group_tags: food.food_groups_tags,
+        image: food.image_front_small_url    
+    })
     next
         
 }
