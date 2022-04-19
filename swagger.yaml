@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
-  title: Node.js Sign-up and Verification API
-  description: Node.js + MySQL - API with email sign-up, verification, authentication and forgot password
+  title: Pantreazy
+  description: Food/Recipe App
   version: 1.0.0
 
 servers:
@@ -9,11 +9,14 @@ servers:
     description: Local development server
 
 paths:
+  
   /accounts/authenticate:
     post:
       summary: Authenticate account credentials and return a JWT token and a cookie with a refresh token
       description: Accounts must be verified before authenticating.
       operationId: authenticate
+      tags: 
+        - accounts
       requestBody:
         required: true
         content:
@@ -86,6 +89,8 @@ paths:
       summary: Use a refresh token to generate a new JWT token and a new refresh token
       description: The refresh token is sent and returned via cookies.
       operationId: refreshToken
+      tags: 
+        - accounts
       parameters:
         - in: cookie
           name: refreshToken
@@ -149,6 +154,8 @@ paths:
       summary: Revoke a refresh token
       description: Admin users can revoke the tokens of any account, regular users can only revoke their own tokens.
       operationId: revokeToken
+      tags: 
+        - accounts
       security:
         - bearerAuth: []
       parameters:
@@ -195,6 +202,8 @@ paths:
       summary: Register a new user account and send a verification email
       description: The first account registered in the system is assigned the `Admin` role, other accounts are assigned the `User` role.
       operationId: register
+      tags: 
+        - accounts
       requestBody:
         required: true
         content:
@@ -245,6 +254,8 @@ paths:
     post:
       summary: Verify a new account with a verification token received by email after registration
       operationId: verifyEmail
+      tags: 
+        - accounts
       requestBody:
         required: true
         content:
@@ -282,6 +293,8 @@ paths:
     post:
       summary: Submit email address to reset the password on an account
       operationId: forgotPassword
+      tags: 
+        - accounts
       requestBody:
         required: true
         content:
@@ -309,6 +322,8 @@ paths:
     post:
       summary: Validate the reset password token received by email after submitting to the /accounts/forgot-password route
       operationId: validateResetToken
+      tags: 
+        - accounts
       requestBody:
         required: true
         content:
@@ -346,6 +361,8 @@ paths:
     post:
       summary: Reset the password for an account
       operationId: resetPassword
+      tags: 
+        - accounts
       requestBody:
         required: true
         content:
@@ -392,6 +409,8 @@ paths:
       summary: Get a list of all accounts
       description: Restricted to admin users.
       operationId: getAllAccounts
+      tags: 
+        - accounts
       responses:
         "200":
           description: An array of all accounts
@@ -432,6 +451,8 @@ paths:
       summary: Create a new account
       description: Restricted to admin users.
       operationId: createAccount
+      tags: 
+        - accounts
       security:
         - bearerAuth: []
       requestBody:
@@ -524,6 +545,8 @@ paths:
       summary: Get a single account by id
       description: Admin users can access any account, regular users are restricted to their own account.
       operationId: getAccountById
+      tags: 
+        - accounts
       security:
         - bearerAuth: []
       responses:
@@ -566,6 +589,8 @@ paths:
       summary: Update an account
       description: Admin users can update any account including role, regular users are restricted to their own account and cannot update role.
       operationId: updateAccount
+      tags: 
+        - accounts
       security:
         - bearerAuth: []
       requestBody:
@@ -636,6 +661,8 @@ paths:
       summary: Delete an account
       description: Admin users can delete any account, regular users are restricted to their own account.
       operationId: deleteAccount
+      tags: 
+        - accounts
       security:
         - bearerAuth: []
       responses:
@@ -653,6 +680,48 @@ paths:
           $ref: "#/components/responses/NotFoundError"
         "401":
           $ref: "#/components/responses/UnauthorizedError"
+  /foods/{barcode}:
+    parameters:
+        - in: path
+          name: barcode
+          description: food barcode. 
+          required: true
+          example: "072250020756"
+          schema:
+            type: string
+    get:
+      summary: get a specific food item
+      description: 
+      operationId: 
+      tags: 
+        - foods
+      responses:
+        "200":
+          description: An object with food info
+          content:
+            application/json:
+              schema:
+                  type: object
+                  properties:
+                    barcode:
+                      type: string
+                      example: "072250020756"
+                    product_name:
+                      type: string
+                      example: "Thick sliced multigrain bread"
+                    food_group:
+                      type: string
+                      example: "Jason"
+                    food_group_tags:
+                      type: array
+                      items:
+                        type: string
+                        example: ["en:cereals-and-potatoe", "en:bread"]
+                    image:
+                      type: string
+                      example: "https://images.openfoodfacts.org/images/products/007/225/002/0756/front_en.8.200.jpg"
+        "404":
+          $ref: "#/components/responses/NotFoundError"
 
 components:
   securitySchemes:
