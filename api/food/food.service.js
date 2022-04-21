@@ -1,5 +1,6 @@
 const axios = require("axios");
 const baseurl = "https://world.openfoodfacts.org/api/v0/product/"
+const OpenFoodFactsFields = "?fields=_id,product_name,food_groups,food_groups_tags,image_front_small_url"
 
 module.exports = {
   getFoodByBarcode
@@ -11,8 +12,10 @@ module.exports = {
 async function getFoodByBarcode(barcode) {
   
   try{
-    const food = await axios.get(baseurl + barcode + ".json");
-    return food.data.product;
+    const food = await axios.get(baseurl + barcode + ".json" + OpenFoodFactsFields);
+    
+    return food.data;
+    
   }
   catch(err){
     return err;

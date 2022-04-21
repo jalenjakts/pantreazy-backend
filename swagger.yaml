@@ -722,6 +722,8 @@ paths:
                       example: "https://images.openfoodfacts.org/images/products/007/225/002/0756/front_en.8.200.jpg"
         "404":
           $ref: "#/components/responses/NotFoundError"
+        "400":
+          $ref: "#/components/responses/InvalidInput"
 
 components:
   securitySchemes:
@@ -750,3 +752,13 @@ components:
               message:
                 type: string
                 example: "Not Found"
+    InvalidInput:
+      description: Invalid Input
+      content:
+        application/json:
+          schema:
+            type: object 
+            properties:
+              message:
+                type: string
+                example: "Invalid Input"
