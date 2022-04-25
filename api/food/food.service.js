@@ -6,7 +6,7 @@ module.exports = {
   getFoodByBarcode,
   addPantryItem,
   updatePantryItem,
-  getPantry,
+  getPantryItems,
   deletePantryItem
 }
 
@@ -70,10 +70,18 @@ async function deletePantryItem(params){
   //finds pantry item
   const pantryItem = await db.Pantry.findOne({where: {accountId: params.id} && {foodId: params.barcode}});
   
+  //if no pantry item is not found, throw error
+  if(pantryItem == null){ throw "pantry item not found" }
+
   await pantryItem.destroy();
 }
 
-async function getPantry(params){
+async function getPantryItems(params){
   const pantry = await db.Pantry.findAll({where: {accountId: params.id}})
+  // const pantry = await db.Pantry.findAll();
+
+  //if no pantry item is not found, throw error
+  if(pantry == null){ throw "pantry not found" }
+  
   return pantry;
 }

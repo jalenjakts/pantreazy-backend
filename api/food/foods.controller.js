@@ -11,7 +11,7 @@ const validateRequest = require('api/_middleware/validate-request');
 router.get('/:barcode', getFood); 
 router.post('/addPantryItem', addPantryItem)
 router.put('/updatePantryItem', updatePantryItem)
-router.get('/getPantry', getPantry)
+router.get('/getPantry/', getPantry)
 router.delete('/deletePantryItem', deletePantryItem)
 
 //This grabs item from OpenFoodFacts db
@@ -47,14 +47,15 @@ function updatePantryItem(req,res,next){
 }
 
 function getPantry(req,res,next){
-    foodService.getPantry(req.body)
+    console.log(req.body);
+    foodService.getPantryItems(req.body)
         .then(() => res.json(pantry))
         .catch(next);
 }
 
 function deletePantryItem(req,res,next){
     foodService.deletePantryItem(req.body)
-        .then(() => res.json("Pantry item deleted"))
+        .then(() => res.json({message: "Pantry item deleted"}))
         .catch(next);
 }
 // function foodSchema(req, res, next) {
