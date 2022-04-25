@@ -4,7 +4,10 @@ const OpenFoodFactsFields = "?fields=_id,product_name,food_groups,food_groups_ta
 
 module.exports = {
   getFoodByBarcode,
-  addPantryItem
+  addPantryItem,
+  updatePantryItem,
+  getPantry,
+  deletePantryItem
 }
 
 
@@ -26,7 +29,6 @@ async function getFoodByBarcode(barcode) {
 async function addPantryItem(params){
   const food = await getFoodByBarcode(params.barcode);
   //throw error if barcode wrong
-  console.log(await db.Pantry.findOne({where: {accountId: params.id} && {foodId: params.barcode}}))
   if(food.status_verbose == "product not found"){
     throw "product not found";
   }
@@ -48,5 +50,30 @@ async function addPantryItem(params){
       accountId: params.id
     });
     
+    return newFood;
   }
+}
+
+async function updatePantryItem(params){
+  //finds pantry item
+  const pantryItem = await db.Pantry.findOne({where: {accountId: params.id} && {foodId: params.barcode}});
+  
+  //if no pantry item is not found, throw error
+  if(pantryItem == null){ throw "pantry item not found" }
+
+  //edits and saves pantry item
+  pantryItem.quantity = params.quantity;
+  await pantryItem.update({ quantity: params.quantity })
+}
+
+async function deletePantryItem(params){
+  //finds pantry item
+  const pantryItem = await db.Pantry.findOne({where: {accountId: params.id} && {foodId: params.barcode}});
+  
+  await pantryItem.destroy();
+}
+
+async function getPantry(params){
+  const pantry = await db.Pantry.findAll({where: {accountId: params.id}})
+  return pantry;
 }

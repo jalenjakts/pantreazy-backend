@@ -4,15 +4,15 @@ const foodService = require('api/food/food.service');
 const validateRequest = require('api/_middleware/validate-request');
 
 
+
 // routes
 //note: all routes begin with /foods. 
 //EX: https://url.com/foods/:barcode
 router.get('/:barcode', getFood); 
-router.get('/getPantry')
 router.post('/addPantryItem', addPantryItem)
-router.delete('/deletePantryItem')
-router.put('/updatePantryItem')
-
+router.put('/updatePantryItem', updatePantryItem)
+router.get('/getPantry', getPantry)
+router.delete('/deletePantryItem', deletePantryItem)
 
 //This grabs item from OpenFoodFacts db
 async function getFood(req, res, next){
@@ -34,34 +34,41 @@ async function getFood(req, res, next){
     next    
 }
 
+function addPantryItem(req, res, next) {
+    foodService.addPantryItem(req.body)
+        .then(() => res.status(200).json({ message: 'Pantry item added successfully' }))
+        .catch(next);
+}
+
+function updatePantryItem(req,res,next){
+    foodService.updatePantryItem(req.body)
+        .then(() => res.status(200).json({ message: 'Pantry item updated successfully' }))
+        .catch(next);
+}
+
+function getPantry(req,res,next){
+    foodService.getPantry(req.body)
+        .then(() => res.json(pantry))
+        .catch(next);
+}
+
+function deletePantryItem(req,res,next){
+    foodService.deletePantryItem(req.body)
+        .then(() => res.json("Pantry item deleted"))
+        .catch(next);
+}
+// function foodSchema(req, res, next) {
+//     const schema = Joi.object({
+//         barcode: Joi.number().required(),
+//     });
+//     validateRequest(req, next, schema);
+// }
+
 // function pantrySchema(req, res, next) {
 //     const schema = Joi.object({
 //         barcode: Joi.number().required(),
 //         quantity: Joi.number().required(),
 //         accountId: Joi.number().required()
-//     });
-//     validateRequest(req, next, schema);
-// }
-
-// async function addPantryItem(req, res, next){
-//     console.log(food);
-//     const food = await foodService.addPantryItem(req.params.barcode, req.params.id);
-//     res.json({
-//         message: "Successfully added item "+ food.product_name  
-//     })
-//     next
-// }
-
-function addPantryItem(req, res, next) {
-    foodService.addPantryItem(req.body)
-        .then(() => res.json({ message: 'Pantry item added successfully' }))
-        .catch(next);
-}
-
-
-// function foodSchema(req, res, next) {
-//     const schema = Joi.object({
-//         barcode: Joi.number().required(),
 //     });
 //     validateRequest(req, next, schema);
 // }
