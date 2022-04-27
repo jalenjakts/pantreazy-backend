@@ -78,8 +78,8 @@ async function deletePantryItem(params){
 
 async function getPantryItems(params){
   // find array of all pantry items user has.
-  const pantry = await db.Pantry.findAll({where: {accountId: params.id}})
-  
+  //const pantry = await db.Pantry.findAll({where: {accountId: params.id}} && {attributes: ['foodid', 'quantity', 'product_name', 'image', 'food_group', ['accountId', 'id']]} )
+  const pantry = await db.Pantry.findAll({where: {accountId: params.id}});
   //if no pantry item is not found, throw error (not working atm?)
   if(pantry == null){ throw "pantry not found" }
   

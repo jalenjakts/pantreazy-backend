@@ -11,7 +11,7 @@ const validateRequest = require('api/_middleware/validate-request');
 router.get('/getFood/:barcode', getFood); 
 router.post('/addPantryItem', addPantryItem)
 router.put('/updatePantryItem', updatePantryItem)
-router.get('/getPantry/', getPantry)
+router.get('/getPantry', getPantry)
 router.delete('/deletePantryItem', deletePantryItem)
 
 //This grabs item from OpenFoodFacts db
