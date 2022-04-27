@@ -8,7 +8,7 @@ const validateRequest = require('api/_middleware/validate-request');
 // routes
 //note: all routes begin with /foods. 
 //EX: https://url.com/foods/:barcode
-router.get('/:barcode', getFood); 
+router.get('/getFood/:barcode', getFood); 
 router.post('/addPantryItem', addPantryItem)
 router.put('/updatePantryItem', updatePantryItem)
 router.get('/getPantry/', getPantry)
@@ -47,9 +47,11 @@ function updatePantryItem(req,res,next){
 }
 
 function getPantry(req,res,next){
-    console.log(req.body);
+    
     foodService.getPantryItems(req.body)
-        .then(() => res.json(pantry))
+        .then((pantry) => res.json(
+            pantry
+        ))
         .catch(next);
 }
 
@@ -74,4 +76,3 @@ function deletePantryItem(req,res,next){
 //     validateRequest(req, next, schema);
 // }
 module.exports = router;
-
