@@ -583,6 +583,7 @@ paths:
                     example: "2020-05-08T03:11:21.553Z"
         "404":
           $ref: "#/components/responses/NotFoundError"
+
         "401":
           $ref: "#/components/responses/UnauthorizedError"
     put:
@@ -680,6 +681,8 @@ paths:
           $ref: "#/components/responses/NotFoundError"
         "401":
           $ref: "#/components/responses/UnauthorizedError"
+  
+
   /foods/getFood/{barcode}:
     parameters:
         - in: path
@@ -724,55 +727,13 @@ paths:
           $ref: "#/components/responses/NotFoundError"
         "400":
           $ref: "#/components/responses/InvalidInput"
-  /foods/addPantryItem:
-    post:
-      summary: add a food item to the pantry of the user, user is specified through userId
-      tags: 
-        - foods
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                id:
-                  type: string
-                  example: "16"
-                barcode:
-                  type: string
-                  example: "3327272107259"
-                quantity: 
-                  type: integer
-                  example: 5
-      responses:
-        "200":
-          description: success
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    message: string
-                    example: "Pantry item added successfully"
-    
   /foods/getPantry:
     get:
-      summary: get all the food items listed under a userid's pantry. Request can be an integer or string, doesn't matter. Response will always be an integer.
+      summary: get all the food items listed under a user's pantry. 
       tags: 
         - foods
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                id:
-                  type: string
-                  example: "16"
+      security:
+        - bearerAuth: []
       responses:
         "200":
           description: success
@@ -799,12 +760,12 @@ paths:
                       type: string
                       example: "en:bread"
                     accountId: integer
-                      type: 16
-
-                    
+                      type: 16             
   /foods/addPantryItem:
     post:
-      summary: add a food item to the pantry of the user, user is specified through id. again, id can be string or int
+      summary: add a food item to the pantry of the user
+      security:
+        - bearerAuth: []
       tags: 
         - foods
       requestBody:
@@ -814,9 +775,6 @@ paths:
             schema:
               type: object
               properties:
-                id:
-                  type: string
-                  example: "16"
                 barcode:
                   type: string
                   example: "3327272107259"
@@ -829,12 +787,10 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    message: string
-                    example: "Pantry item added successfully"
+                type: object
+                properties:
+                  message: string
+                  example: "Pantry item added successfully"
         "400":
           description: this was already registered before, with the same account.
           content:
@@ -843,13 +799,13 @@ paths:
                 type: object
                 properties:
                   message: string
-                    example: "The pantry item Peanut butter creamy is already registered under this account"
-          
-
+                  example: "The pantry item Peanut butter creamy is already registered under this account"
   /foods/updatePantryItem:
-    delete:
+    put:
       tags: 
         - foods
+      security:
+        - bearerAuth: []
       requestBody:
         required: true
         content:
@@ -857,9 +813,6 @@ paths:
             schema:
               type: object
               properties:
-                id:
-                  type: string
-                  example: "16"
                 barcode:
                   type: string
                   example: "3327272107259"
@@ -888,9 +841,11 @@ paths:
                     type: string
                     example: "pantry item not found"
   /foods/deletePantryItem:
-    put:
+    delete:
       tags: 
         - foods
+      security:
+        - bearerAuth: []
       requestBody:
         required: true
         content:
@@ -898,9 +853,6 @@ paths:
             schema:
               type: object
               properties:
-                id:
-                  type: string
-                  example: "16"
                 barcode:
                   type: string
                   example: "3327272107259"
