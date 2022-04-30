@@ -26,7 +26,7 @@ async function getFoodByBarcode(barcode) {
   }
 }
 
-async function addPantryItem(params){
+async function addPantryItem(params, userId){
   const food = await getFoodByBarcode(params.barcode);
   //throw error if barcode wrong
   if(food.status_verbose == "product not found"){
@@ -34,7 +34,7 @@ async function addPantryItem(params){
   }
 
   //throw error if food is already registered under the account
-  else if (await db.Pantry.findOne({where: {accountId: params.id} && {foodId: params.barcode}}) != null) {
+  else if (await db.Pantry.findOne({where: {accountId: userId} && {foodId: params.barcode}}) != null) {
     throw "The pantry item " + food.product.product_name +  " is already registered under this account";
   }
 
@@ -47,16 +47,16 @@ async function addPantryItem(params){
       food_group_tags: food.product.food_groups_tags,
       image: food.product.image_front_small_url,
       quantity: params.quantity,
-      accountId: params.id
+      accountId: userId
     });
     
     return newFood;
   }
 }
 
-async function updatePantryItem(params){
+async function updatePantryItem(params, userId){
   //finds pantry item
-  const pantryItem = await db.Pantry.findOne({where: {accountId: params.id} && {foodId: params.barcode}});
+  const pantryItem = await db.Pantry.findOne({where: {accountId: userId} && {foodId: params.barcode}});
   
   //if no pantry item is not found, throw error
   if(pantryItem == null){ throw "pantry item not found" }
@@ -66,9 +66,9 @@ async function updatePantryItem(params){
   await pantryItem.update({ quantity: params.quantity })
 }
 
-async function deletePantryItem(params){
+async function deletePantryItem(params, userId){
   //finds pantry item
-  const pantryItem = await db.Pantry.findOne({where: {accountId: params.id} && {foodId: params.barcode}});
+  const pantryItem = await db.Pantry.findOne({where: {accountId: userId} && {foodId: params.barcode}});
   
   //if no pantry item is not found, throw error
   if(pantryItem == null){ throw "pantry item not found" }
@@ -76,12 +76,19 @@ async function deletePantryItem(params){
   await pantryItem.destroy();
 }
 
-async function getPantryItems(params){
+async function getPantryItems(userId){
   // find array of all pantry items user has.
   //const pantry = await db.Pantry.findAll({where: {accountId: params.id}} && {attributes: ['foodid', 'quantity', 'product_name', 'image', 'food_group', ['accountId', 'id']]} )
-  const pantry = await db.Pantry.findAll({where: {accountId: params.id}});
+  const pantry = await db.Pantry.findAll({where: {accountId: userId}});
   //if no pantry item is not found, throw error (not working atm?)
   if(pantry == null){ throw "pantry not found" }
   
   return pantry;
 }
+
+// async function getRecipes(params){
+//   const pantry = getPantryItems(params.user)
+//   for(var i in pantry)
+
+
+// }
