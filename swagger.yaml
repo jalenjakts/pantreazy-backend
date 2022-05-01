@@ -916,14 +916,14 @@ paths:
                       type: array
                       items:
                         type: object
-                          properties:
+                        properties:
                           name: 
                             type: string
                             example: "semisweet chocolate chips"
                           amount:
                             type: number
                             example: 13.5
-                          unitSHort:
+                          unitShort:
                             type: string
                             example: "oz"
                           image:
@@ -933,7 +933,7 @@ paths:
                       type: array
                       items:
                         type: object
-                          properties:
+                        properties:
                           name: 
                             type: string
                             example: "creamy peanut butter"
