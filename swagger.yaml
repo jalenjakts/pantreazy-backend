@@ -533,7 +533,6 @@ paths:
         "401":
           $ref: "#/components/responses/UnauthorizedError"
   /accounts/getById:
-    
     get:
       summary: Get a single account by id
       description: Admin users can access any account, regular users are restricted to their own account.
@@ -576,7 +575,6 @@ paths:
                     example: "2020-05-08T03:11:21.553Z"
         "404":
           $ref: "#/components/responses/NotFoundError"
-
         "401":
           $ref: "#/components/responses/UnauthorizedError"
     put:
@@ -723,6 +721,8 @@ paths:
   /foods/getPantry:
     get:
       summary: get all the food items listed under a user's pantry. 
+      description: 
+      operationId: getPantry
       tags: 
         - foods
       security:
@@ -753,7 +753,10 @@ paths:
                       type: string
                       example: "en:bread"
                     accountId: integer
-                      type: 16             
+                      type: int
+                      example: 16       
+        "401":
+          $ref: "#/components/responses/UnauthorizedError" 
   /foods/addPantryItem:
     post:
       summary: add a food item to the pantry of the user
@@ -793,6 +796,8 @@ paths:
                 properties:
                   message: string
                   example: "The pantry item Peanut butter creamy is already registered under this account"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
   /foods/updatePantryItem:
     put:
       tags: 
@@ -822,7 +827,9 @@ paths:
                 items:
                   type: object
                   properties:
-                    id: integer
+                    message: 
+                      type: string
+                      example: "Pantry item updated successfully"
         "404":
           description: the pantry item wasn't found for that user.
           content:
@@ -833,6 +840,8 @@ paths:
                   message:
                     type: string
                     example: "pantry item not found"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
   /foods/deletePantryItem:
     delete:
       tags: 
@@ -855,11 +864,10 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    message: string
+                type: object
+                properties:
+                  message: 
+                    type: string
                     example: "Pantry item deleted"
         "404":
           description: the pantry item wasn't found for that user.
@@ -871,6 +879,8 @@ paths:
                   message:
                     type: string
                     example: "pantry item not found"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
   /foods/getRecipes: 
     get:
       summary: get 5 recipes based on food pantry for an account
@@ -903,36 +913,42 @@ paths:
                       type: int
                       example: 1
                     missedIngredients:
-                    type: array
-                    items:
-                      type: object
-                        properties:
-                        name: 
-                          type: string
-                          example: "semisweet chocolate chips"
-                        amount:
-                          type: number
-                          example: 13.5
-                        unitSHort:
-                          type: string
-                          example: "oz"
-                        image:
-                          type: string
-                          example: "https://spoonacular.com/cdn/ingredients_100x100/chocolate-chips.jpg"
+                      type: array
+                      items:
+                        type: object
+                          properties:
+                          name: 
+                            type: string
+                            example: "semisweet chocolate chips"
+                          amount:
+                            type: number
+                            example: 13.5
+                          unitSHort:
+                            type: string
+                            example: "oz"
+                          image:
+                            type: string
+                            example: "https://spoonacular.com/cdn/ingredients_100x100/chocolate-chips.jpg"
                     usedIngredients:
-                    type: array
-                    items:
-                      type: object
-                        properties:
-                        name: 
-                          type: string
-                          example: "creamy peanut butter"
-                        amount:
-                          type: number
-                          example: 4
-                        unitSHort:
-                          type: string
-                          example: "Tbsp"
+                      type: array
+                      items:
+                        type: object
+                          properties:
+                          name: 
+                            type: string
+                            example: "creamy peanut butter"
+                          amount:
+                            type: number
+                            example: 4
+                          unitShort:
+                            type: string
+                            example: "Tbsp"
+                          image:
+                            type: string
+                            example: "https://spoonacular.com/cdn/ingredients_100x100/chocolate-chips.jpg"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+        
 
                     
 
