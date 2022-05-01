@@ -532,15 +532,8 @@ paths:
                     example: "Email 'jason@example.com' is already registered"
         "401":
           $ref: "#/components/responses/UnauthorizedError"
-  /accounts/{id}:
-    parameters:
-      - in: path
-        name: id
-        description: Account id
-        required: true
-        example: "5eb12e197e06a76ccdefc121"
-        schema:
-          type: string
+  /accounts/:
+    
     get:
       summary: Get a single account by id
       description: Admin users can access any account, regular users are restricted to their own account.
@@ -878,6 +871,70 @@ paths:
                   message:
                     type: string
                     example: "pantry item not found"
+  /foods/getRecipes: 
+    get:
+      summary: get 5 recipes based on food pantry for an account
+      tags: 
+        - foods
+      security:
+        - bearerAuth: []
+      requestBody:
+
+      responses:
+        "200":
+          description: success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    title:
+                      type: string
+                      example: "Chocolate PB & J Cups"    
+                    image: 
+                      type: string
+                      example: "https://spoonacular.com/recipeImages/1096312-312x231.jpg"    
+                    usedIngredientCount: 
+                      type: int
+                      example: 2
+                    missedIngredientCount:
+                      type: int
+                      example: 1
+                    missedIngredients:
+                    type: array
+                    items:
+                      type: object
+                        properties:
+                        name: 
+                          type: string
+                          example: "semisweet chocolate chips"
+                        amount:
+                          type: number
+                          example: 13.5
+                        unitSHort:
+                          type: string
+                          example: "oz"
+                        image:
+                          type: string
+                          example: "https://spoonacular.com/cdn/ingredients_100x100/chocolate-chips.jpg"
+                    usedIngredients:
+                    type: array
+                    items:
+                      type: object
+                        properties:
+                        name: 
+                          type: string
+                          example: "creamy peanut butter"
+                        amount:
+                          type: number
+                          example: 4
+                        unitSHort:
+                          type: string
+                          example: "Tbsp"
+
+                    
 
 components:
   securitySchemes:

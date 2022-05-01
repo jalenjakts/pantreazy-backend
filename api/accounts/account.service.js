@@ -160,7 +160,9 @@ async function getAll() {
 }
 
 async function getById(id) {
+    console.log("the method is being called")
     const account = await getAccount(id);
+    console.log(basicDetails(account));
     return basicDetails(account);
 }
 
@@ -246,8 +248,8 @@ function randomTokenString() {
 }
 
 function basicDetails(account) {
-    const { id, title, firstName, lastName, email, role, created, updated, isVerified } = account;
-    return { id, title, firstName, lastName, email, role, created, updated, isVerified };
+    const { id, firstName, lastName, email, role, created, updated, isVerified } = account;
+    return { id, firstName, lastName, email, role, created, updated, isVerified };
 }
 
 async function sendVerificationEmail(account, origin) {

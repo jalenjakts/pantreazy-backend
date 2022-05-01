@@ -18,10 +18,11 @@ router.post('/forgot-password', forgotPasswordSchema, forgotPassword);
 router.post('/validate-reset-token', validateResetTokenSchema, validateResetToken);
 router.post('/reset-password', resetPasswordSchema, resetPassword);
 router.get('/', getAll); // to add authorization back in, add "authorize(Role.Admin)," after the URL
-router.get('/:id', authorize(), getById);
+router.get('/getById', authorize(), getById);
 router.post('/', authorize(Role.Admin), createSchema, create);
 router.put('/:id', authorize(), updateSchema, update);
 router.delete('/:id', authorize(), _delete);
+router.get('/getByJWT', authorize(), getByJWT);
 
 module.exports = router;
 
@@ -160,11 +161,11 @@ function getAll(req, res, next) {
 
 function getById(req, res, next) {
     // users can get their own account and admins can get any account
-    if (Number(req.params.id) !== req.user.id && req.user.role !== Role.Admin) {
-        return res.status(401).json({ message: 'Unauthorized' });
-    }
+    // if (Number(req.params.id) !== req.user.id && req.user.role !== Role.Admin) {
+    //     return res.status(401).json({ message: 'Unauthorized' });
+    // }
 
-    accountService.getById(req.params.id)
+    accountService.getById(req.user.id)
         .then(account => account ? res.json(account) : res.sendStatus(404))
         .catch(next);
 }
@@ -229,6 +230,14 @@ function _delete(req, res, next) {
         .catch(next);
 }
 
+function getByJWT(req, res, next){
+    console.log("the user id passed into getById is: " + req.user.id);
+
+    
+    accountService.getById(req.user.id)
+        .then(account => account ? res.json(account) : res.sendStatus(404))
+        .catch(next);
+}
 // helper functions
 
 function setTokenCookie(res, token) {
