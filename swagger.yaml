@@ -752,7 +752,7 @@ paths:
                     food_group:
                       type: string
                       example: "en:bread"
-                    accountId: integer
+                    accountId: 
                       type: int
                       example: 16       
         "401":
@@ -785,8 +785,9 @@ paths:
               schema:
                 type: object
                 properties:
-                  message: string
-                  example: "Pantry item added successfully"
+                  message: 
+                    type: string
+                    example: "Pantry item added successfully"
         "400":
           description: this was already registered before, with the same account.
           content:
@@ -794,8 +795,9 @@ paths:
               schema:
                 type: object
                 properties:
-                  message: string
-                  example: "The pantry item Peanut butter creamy is already registered under this account"
+                  message: 
+                    type: string
+                    example: "The pantry item Peanut butter creamy is already registered under this account"
         "401":
           $ref: "#/components/responses/UnauthorizedError"
   /foods/updatePantryItem:
