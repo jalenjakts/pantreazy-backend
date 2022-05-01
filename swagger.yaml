@@ -532,7 +532,7 @@ paths:
                     example: "Email 'jason@example.com' is already registered"
         "401":
           $ref: "#/components/responses/UnauthorizedError"
-  /accounts/:
+  /accounts/getById:
     
     get:
       summary: Get a single account by id
