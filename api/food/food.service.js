@@ -1,13 +1,18 @@
 const axios = require("axios");
+const { recipe_api_key } = require("../config");
 const baseurl = "https://world.openfoodfacts.org/api/v0/product/"
 const OpenFoodFactsFields = "?fields=_id,product_name,food_groups,food_groups_tags,image_front_small_url"
+const recipeurl = "https://api.spoonacular.com/recipes/findByIngredients?ingredients="
+const recipeFields = "&number=5&apiKey=" + recipe_api_key
 
 module.exports = {
   getFoodByBarcode,
   addPantryItem,
   updatePantryItem,
   getPantryItems,
-  deletePantryItem
+  deletePantryItem,
+  getRecipes
+
 }
 
 
@@ -86,9 +91,31 @@ async function getPantryItems(userId){
   return pantry;
 }
 
-// async function getRecipes(params){
-//   const pantry = getPantryItems(params.user)
-//   for(var i in pantry)
+async function getRecipes(userId){
 
+  //grabs all items in user's pantry
+  const pantry = await getPantryItems(userId);
+  if(!pantry || pantry == "pantry not found"){
+    throw "pantry not found"
+  }
+  var allProducts = "";
 
-// }
+  //makes a list of all pantry items by name
+  for(var i = 0; i < pantry.length; i++){
+    allProducts = allProducts.concat(",+",pantry[i].dataValues.product_name);
+  }
+
+  //grabs recipes based on product names
+  const recipes = await axios.get(recipeurl + allProducts + recipeFields);
+  
+  //creates empty json object and inserts necessary data into the object.
+  // var recipeData = {}; 
+  // recipeData[recipes] = [];
+  // var data;
+  // for(var i = 0; i < recipes.length; i++){
+    
+  //   recipeData[recipes]
+  // }
+  return recipes.data;
+
+}

@@ -64,7 +64,11 @@ function deletePantryItem(req,res,next){
 }
 
 function getRecipes(req,res,next){
-
+    foodService.getRecipes(req.user.id)
+        .then((pantry) => res.json(
+            pantry
+        ))
+        .catch(next);
 }
 // function foodSchema(req, res, next) {
 //     const schema = Joi.object({
