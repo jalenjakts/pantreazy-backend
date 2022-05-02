@@ -1,17 +1,12 @@
 # Pantreazy NodeJS API
 
-Welcome to the React-Web Application for SWE 4724. This project utilizes the NextJS Framework to handle the component-based web application that we need to manage the website.
+Welcome to the Pantreazy NodeJS API for SWE 4724. This project utilizes the NextJS Framework to handle the component-based web application that we need to manage the website.
 
 This application currently right now does not have the application deployed to AWS. This README will document all the necessary information need to build and get started with the application.
 
 ## Project Tracking
 
 #### Contributors: Ben Dawit (BD), Tyler Hopkins (TH), Kyle Musgrove (KM), Jalen Springer (JS)
-
-**Features and Project Requests**
-
-- [x] Showing how to do a checked item...
-- [ ] Task Item #1
 
 ### Project Requirements: (Make sure these items are installed to PATH)
     
@@ -38,7 +33,8 @@ Like stated in the description, this project can be ran in several ways. I'll go
 1. After cloning the repository to your system. Create a new branch as your name to carry out work separately from the master branch.
 2. Switch to your branch, and now you're good to develop and code on the project.
 3. Open up your terminal and cd into your current directory for where the project is.
-4. Within the terminal run the following command:
+4. You will need to ask the original developers to provide you the information for the .env file
+5. Within the terminal run the following command:
 
 - Execute the following command:
 
