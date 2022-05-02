@@ -1,4 +1,4 @@
-﻿const config = require('api/config.json');
+﻿const config = require('api/config.js');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const crypto = require("crypto");
@@ -26,8 +26,12 @@ module.exports = {
 async function authenticate({ email, password, ipAddress }) {
     const account = await db.Account.scope('withHash').findOne({ where: { email } });
 
-    if (!account || !account.isVerified || !(await bcrypt.compare(password, account.passwordHash))) {
+    
+    if (!account || !(await bcrypt.compare(password, account.passwordHash))) {
         throw 'Email or password is incorrect';
+    }
+    if(!account.isVerified){
+        throw 'Account is Unverified'
     }
 
     // authentication successful so generate jwt and refresh tokens
@@ -156,7 +160,9 @@ async function getAll() {
 }
 
 async function getById(id) {
+    console.log("the method is being called")
     const account = await getAccount(id);
+    console.log(basicDetails(account));
     return basicDetails(account);
 }
 
@@ -224,7 +230,7 @@ async function hash(password) {
 
 function generateJwtToken(account) {
     // create a jwt token containing the account id that expires in 15 minutes
-    return jwt.sign({ sub: account.id, id: account.id }, config.secret, { expiresIn: '15m' });
+    return jwt.sign({ sub: account.id, id: account.id }, config.secret, { expiresIn: '30m' });
 }
 
 function generateRefreshToken(account, ipAddress) {
@@ -242,8 +248,8 @@ function randomTokenString() {
 }
 
 function basicDetails(account) {
-    const { id, title, firstName, lastName, email, role, created, updated, isVerified } = account;
-    return { id, title, firstName, lastName, email, role, created, updated, isVerified };
+    const { id, firstName, lastName, email, role, created, updated, isVerified } = account;
+    return { id, firstName, lastName, email, role, created, updated, isVerified };
 }
 
 async function sendVerificationEmail(account, origin) {
@@ -259,7 +265,7 @@ async function sendVerificationEmail(account, origin) {
 
     await sendEmail({
         to: account.email,
-        subject: 'Sign-up Verification API - Verify Email',
+        subject: 'Sign-up Pantreazy - Verify Email',
         html: `<h4>Verify Email</h4>
                <p>Thanks for registering!</p>
                ${message}`

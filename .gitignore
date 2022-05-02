@@ -42,3 +42,9 @@ workspace.code-workspace
 
 #addition by ben > don't want to commit packages directly, use npm install to install packages correctly.
 package-lock.json
+
+#addition by ben > environment variables
+.env
+
+#addition by ben > pem key for AWS backend
+.pem

@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
-  title: Node.js Sign-up and Verification API
-  description: Node.js + MySQL - API with email sign-up, verification, authentication and forgot password
+  title: Pantreazy
+  description: Food/Recipe App
   version: 1.0.0
 
 servers:
@@ -9,11 +9,14 @@ servers:
     description: Local development server
 
 paths:
+  
   /accounts/authenticate:
     post:
       summary: Authenticate account credentials and return a JWT token and a cookie with a refresh token
       description: Accounts must be verified before authenticating.
       operationId: authenticate
+      tags: 
+        - accounts
       requestBody:
         required: true
         content:
@@ -86,6 +89,8 @@ paths:
       summary: Use a refresh token to generate a new JWT token and a new refresh token
       description: The refresh token is sent and returned via cookies.
       operationId: refreshToken
+      tags: 
+        - accounts
       parameters:
         - in: cookie
           name: refreshToken
@@ -149,6 +154,8 @@ paths:
       summary: Revoke a refresh token
       description: Admin users can revoke the tokens of any account, regular users can only revoke their own tokens.
       operationId: revokeToken
+      tags: 
+        - accounts
       security:
         - bearerAuth: []
       parameters:
@@ -195,6 +202,8 @@ paths:
       summary: Register a new user account and send a verification email
       description: The first account registered in the system is assigned the `Admin` role, other accounts are assigned the `User` role.
       operationId: register
+      tags: 
+        - accounts
       requestBody:
         required: true
         content:
@@ -245,6 +254,8 @@ paths:
     post:
       summary: Verify a new account with a verification token received by email after registration
       operationId: verifyEmail
+      tags: 
+        - accounts
       requestBody:
         required: true
         content:
@@ -282,6 +293,8 @@ paths:
     post:
       summary: Submit email address to reset the password on an account
       operationId: forgotPassword
+      tags: 
+        - accounts
       requestBody:
         required: true
         content:
@@ -309,6 +322,8 @@ paths:
     post:
       summary: Validate the reset password token received by email after submitting to the /accounts/forgot-password route
       operationId: validateResetToken
+      tags: 
+        - accounts
       requestBody:
         required: true
         content:
@@ -346,6 +361,8 @@ paths:
     post:
       summary: Reset the password for an account
       operationId: resetPassword
+      tags: 
+        - accounts
       requestBody:
         required: true
         content:
@@ -392,6 +409,8 @@ paths:
       summary: Get a list of all accounts
       description: Restricted to admin users.
       operationId: getAllAccounts
+      tags: 
+        - accounts
       responses:
         "200":
           description: An array of all accounts
@@ -432,6 +451,8 @@ paths:
       summary: Create a new account
       description: Restricted to admin users.
       operationId: createAccount
+      tags: 
+        - accounts
       security:
         - bearerAuth: []
       requestBody:
@@ -511,19 +532,13 @@ paths:
                     example: "Email 'jason@example.com' is already registered"
         "401":
           $ref: "#/components/responses/UnauthorizedError"
-  /accounts/{id}:
-    parameters:
-      - in: path
-        name: id
-        description: Account id
-        required: true
-        example: "5eb12e197e06a76ccdefc121"
-        schema:
-          type: string
+  /accounts/getById:
     get:
       summary: Get a single account by id
       description: Admin users can access any account, regular users are restricted to their own account.
       operationId: getAccountById
+      tags: 
+        - accounts
       security:
         - bearerAuth: []
       responses:
@@ -566,6 +581,8 @@ paths:
       summary: Update an account
       description: Admin users can update any account including role, regular users are restricted to their own account and cannot update role.
       operationId: updateAccount
+      tags: 
+        - accounts
       security:
         - bearerAuth: []
       requestBody:
@@ -636,6 +653,8 @@ paths:
       summary: Delete an account
       description: Admin users can delete any account, regular users are restricted to their own account.
       operationId: deleteAccount
+      tags: 
+        - accounts
       security:
         - bearerAuth: []
       responses:
@@ -653,6 +672,287 @@ paths:
           $ref: "#/components/responses/NotFoundError"
         "401":
           $ref: "#/components/responses/UnauthorizedError"
+  
+
+  /foods/getFood/{barcode}:
+    parameters:
+        - in: path
+          name: barcode
+          description: food barcode. 
+          required: true
+          example: "072250020756"
+          schema:
+            type: string
+    get:
+      summary: get a specific food item
+      description: 
+      operationId: 
+      tags: 
+        - foods
+      responses:
+        "200":
+          description: An object with food info
+          content:
+            application/json:
+              schema:
+                  type: object
+                  properties:
+                    barcode:
+                      type: string
+                      example: "072250020756"
+                    product_name:
+                      type: string
+                      example: "Thick sliced multigrain bread"
+                    food_group:
+                      type: string
+                      example: "Jason"
+                    food_group_tags:
+                      type: array
+                      items:
+                        type: string
+                        example: ["en:cereals-and-potatoe", "en:bread"]
+                    image:
+                      type: string
+                      example: "https://images.openfoodfacts.org/images/products/007/225/002/0756/front_en.8.200.jpg"
+        "404":
+          $ref: "#/components/responses/NotFoundError"
+        "400":
+          $ref: "#/components/responses/InvalidInput"
+  /foods/getPantry:
+    get:
+      summary: get all the food items listed under a user's pantry. 
+      description: 
+      operationId: getPantry
+      tags: 
+        - foods
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    foodid:
+                      type: string
+                      example: "0072250020756"
+                    quantity:
+                      type: integer
+                      example: 1
+                    product_name:
+                      type: string
+                      example: "Thick Sliced Multigrain Bread"
+                    image: 
+                      type: string
+                      example: "https://images.openfoodfacts.org/images/products/007/225/002/0756/front_en.8.200.jpg"
+                    food_group:
+                      type: string
+                      example: "en:bread"
+                    accountId: 
+                      type: int
+                      example: 16       
+        "401":
+          $ref: "#/components/responses/UnauthorizedError" 
+  /foods/addPantryItem:
+    post:
+      summary: add a food item to the pantry of the user
+      security:
+        - bearerAuth: []
+      tags: 
+        - foods
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                barcode:
+                  type: string
+                  example: "3327272107259"
+                quantity: 
+                  type: integer
+                  example: 5
+      responses:
+        "200":
+          description: success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message: 
+                    type: string
+                    example: "Pantry item added successfully"
+        "400":
+          description: this was already registered before, with the same account.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message: 
+                    type: string
+                    example: "The pantry item Peanut butter creamy is already registered under this account"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+  /foods/updatePantryItem:
+    put:
+      tags: 
+        - foods
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                barcode:
+                  type: string
+                  example: "3327272107259"
+                quantity:
+                  type: integer
+                  example: 5
+      responses:
+        "200":
+          description: success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    message: 
+                      type: string
+                      example: "Pantry item updated successfully"
+        "404":
+          description: the pantry item wasn't found for that user.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "pantry item not found"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+  /foods/deletePantryItem:
+    delete:
+      tags: 
+        - foods
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                barcode:
+                  type: string
+                  example: "3327272107259"
+      responses:
+        "200":
+          description: success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message: 
+                    type: string
+                    example: "Pantry item deleted"
+        "404":
+          description: the pantry item wasn't found for that user.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "pantry item not found"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+  /foods/getRecipes: 
+    get:
+      summary: get 5 recipes based on food pantry for an account
+      tags: 
+        - foods
+      security:
+        - bearerAuth: []
+      requestBody:
+
+      responses:
+        "200":
+          description: success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    title:
+                      type: string
+                      example: "Chocolate PB & J Cups"    
+                    image: 
+                      type: string
+                      example: "https://spoonacular.com/recipeImages/1096312-312x231.jpg"    
+                    usedIngredientCount: 
+                      type: int
+                      example: 2
+                    missedIngredientCount:
+                      type: int
+                      example: 1
+                    missedIngredients:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          name: 
+                            type: string
+                            example: "semisweet chocolate chips"
+                          amount:
+                            type: number
+                            example: 13.5
+                          unitShort:
+                            type: string
+                            example: "oz"
+                          image:
+                            type: string
+                            example: "https://spoonacular.com/cdn/ingredients_100x100/chocolate-chips.jpg"
+                    usedIngredients:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          name: 
+                            type: string
+                            example: "creamy peanut butter"
+                          amount:
+                            type: number
+                            example: 4
+                          unitShort:
+                            type: string
+                            example: "Tbsp"
+                          image:
+                            type: string
+                            example: "https://spoonacular.com/cdn/ingredients_100x100/chocolate-chips.jpg"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+        
+
+                    
 
 components:
   securitySchemes:
@@ -681,3 +981,13 @@ components:
               message:
                 type: string
                 example: "Not Found"
+    InvalidInput:
+      description: Invalid Input
+      content:
+        application/json:
+          schema:
+            type: object 
+            properties:
+              message:
+                type: string
+                example: "Invalid Input"
