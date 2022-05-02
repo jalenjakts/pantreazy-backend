@@ -47,4 +47,4 @@ package-lock.json
 .env
 
 #addition by ben > pem key for AWS backend
-.pem
+*.pem
